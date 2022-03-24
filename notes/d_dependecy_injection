@@ -1,0 +1,36 @@
+This also known as IOC inversion of control.
+    Flexible Loosely coupled components
+    Easier Testing
+
+Micronaut Inject
+    Inspired by Spring DI & google dagger
+
+    Design goals
+        use reflicetion
+        optimize start up time
+        reduce memroy foot print
+
+
+
+Dependency Injection -
+
+        Consturctor
+        MyService service;
+        HelloworldController(HelloworldService hws){
+        }
+
+
+        @Primary
+        @Singleton -> [Spring @Service]
+        myMyService implements MyService;
+
+
+        @Singleton
+        mySecondaryService implents MyService;
+
+        field based injection
+        @Inject
+
+Note -> its recommended to use constructer based injection
+Note  -> incase of multiple  possible bean candidate we can resolve that by setting primary
+

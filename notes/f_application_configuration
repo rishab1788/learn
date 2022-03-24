@@ -1,0 +1,23 @@
+application name configured here
+
+----------------
+micronaut:
+  application:
+    name: learn
+
+
+we can configure server by adding server part-
+    micronaut:
+      application:
+        name: learn
+      server:
+        port: 8098
+    we can also use place holder
+        port:${SERVER_PORT} // then we need to add in system enviorment
+        port:${SERVER_PORT:8081}// 8081 fallback value
+
+
+        we  can set the of server port in the enviorment values
+
+
+

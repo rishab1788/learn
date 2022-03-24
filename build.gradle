@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.projectlombok:lombok:1.18.20'
     annotationProcessor("io.micronaut:micronaut-http-validation")
     annotationProcessor("io.micronaut.spring:micronaut-spring-annotation")
     annotationProcessor("io.micronaut.spring:micronaut-spring-web-annotation")

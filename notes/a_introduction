@@ -1,0 +1,19 @@
+    Springboot   |                  micronaut                    | Quraks
+very popular                  mimum memroy and startup time        Rective stack
+                            No byte code during compilation
+negtive points               No byte code during compilation         negtive points
+lower startup time                                                  smaller communtity
+higher memeroy usage            smaller community
+
+
+
+to create new application with
+https://micronaut.io/launch
+
+creating controller ->
+
+@Controller("/hello")
+@Get
+
+we can set media type ->
+@Get(produce = MediaType.Text)

@@ -1,0 +1,19 @@
+One of the design goals of Micronaut was to eliminate the artificial separation imposed by
+traditional frameworks between function and unit tests due to slow startup times and memory consumption.
+
+
+
+@MicronautTest -> this triggers micronaut test handling, micronaut server will start and stop the test suit
+                    if we dont add it then it will be normal test.
+
+@Test
+
+Controller tests->
+
+
+we can use HttpClient provided by micronaut for rest calls and there reponse tests.
+    @Inject
+    @Client("/")
+    HttpClient client;
+
+      var response = client.toBlocking().exchange("/say_hello", String.class);

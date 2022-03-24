@@ -1,0 +1,10 @@
+gradle ->
+runtimeOnly("ch.qos.logback:logback-classic")
+
+we can select any logging from launcher like log4j
+
+
+logback.xml
+add this
+<logger name="com.example.controllers" level = "DEBUG"></logger>
+to see whats happing inside we can enable througout the packages

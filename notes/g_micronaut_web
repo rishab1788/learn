@@ -1,0 +1,41 @@
+Server
+Netty 0> non blocking IP
+           Reactuve HTTP Request processing
+           Json Binding with Jackson
+           Web sockets
+           HTTP/2
+
+
+Stock Broker Rest API
+public Endpoint
+
+GET
+
+      Private Endpoints
+                GET
+                PUT
+                Del
+
+
+   with request path param
+   @Get("{Value}")
+   @Get("/books/{isbn}")
+       public Book getBook(@PathVariable(name="isbn") String isbn) {
+           return null;
+       }
+
+   with query param
+   @Get("/filter/{?max,offset}")
+   getBooks(@QueryValue Optional<Integer> max, @QueryValue Optional<Integer> offset )
+   {
+   // we can add custom filter here.
+
+   }
+
+
+
+PUT
+    @Put(consumes = MediaType.APPLICATION_JSON.
+         produces = MediaType.APPLICATION_JSON)
+    update(@Body Book book){
+    }
