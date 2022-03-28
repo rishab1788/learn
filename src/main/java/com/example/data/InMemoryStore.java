@@ -12,9 +12,9 @@ public class InMemoryStore {
 
     public InMemoryStore() {
         this.BOOKS = new HashMap<>();
-        Book book1 = new Book(0001, "Wings of fire", "APJ", 100, 900);
-        Book book2 = new Book(0002, "Art of wonders", "Kalam", 102, 230);
-        Book book3 = new Book(0003, "XP practice", "Tw", 103, 1900);
+        Book book1 = new Book(1, "Wings of fire", "APJ", 100, 900);
+        Book book2 = new Book(2, "Art of wonders", "Kalam", 102, 230);
+        Book book3 = new Book(3, "XP practice", "Tw", 103, 1900);
 
         this.BOOKS.put(book1.getIsbn(),book1);
         this.BOOKS.put(book2.getIsbn(),book2);

@@ -18,13 +18,13 @@ class HelloControllerTest {
 
     @Test
     void shouldReturnHelloworldWhenHelloEndPointUsed() {
-        var response = client.toBlocking().retrieve("/say_hello");
+        var response = client.toBlocking().retrieve("/hello");
         assertEquals("Hello User", response);
     }
 
     @Test
     void shouldReturnProperStatusCodeWhenHelloEndPointUsed() {
-        var response = client.toBlocking().exchange("/say_hello", String.class);
+        var response = client.toBlocking().exchange("/hello", String.class);
         assertEquals(HttpStatus.OK, response.getStatus());
         assertEquals("Hello User", response.getBody().get());
     }

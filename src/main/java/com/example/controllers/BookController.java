@@ -27,7 +27,7 @@ public class BookController {
         return bookList;
     }
 
-    @Get("/books/{isbn}")
+    @Get("/book/{isbn}")
     public Book getBook(@PathVariable Integer isbn) {
         return bookService.fetchBook(isbn);
     }

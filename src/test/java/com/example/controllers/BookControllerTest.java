@@ -50,5 +50,4 @@ class BookControllerTest {
         assertEquals(book.getIsbn(), fetchedBook.getIsbn());
         assertEquals(book.getTitle(), fetchedBook.getTitle());
     }
-
 }

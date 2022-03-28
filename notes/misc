@@ -1,0 +1,15 @@
+
+why record class can not be used as JPA entity?
+According to the JPA specification, an entity must follow these requirements:
+
+the entity class needs to be non-final,
+the entity class needs to have a no-arg constructor that is either public or protected,
+the entity attributes must be non-final.
+However, as explained by this article, the Java Record type is defined like this:
+proivde getters and setters method.
+
+
+the associated Java class is final,
+there is only one constructor that takes all attributes,
+the Java record attributes are final.
+But records are a good fit for a DTO projection, which is often used as a read-only representation of the data stored in your database. more info

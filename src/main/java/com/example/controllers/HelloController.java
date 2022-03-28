@@ -6,7 +6,7 @@ import io.micronaut.http.annotation.Get;
 @Controller
 public class HelloController {
 
-    @Get("/say_hello")
+    @Get("/hello")
     public String sayHello() {
         return "Hello User";
     }
