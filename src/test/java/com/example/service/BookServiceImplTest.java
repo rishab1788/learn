@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.data.InMemoryStore;
 import com.example.entity.Book;
+import com.example.exception.BookNotFoundException;
 import com.example.repository.BookRepository;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,20 +12,24 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
 @ExtendWith({MockitoExtension.class})
 class BookServiceImplTest {
 
+    private static final String SOMEONE = "SOMEONE";
     BookService bookService;
-
-    @Mock BookRepository mockBookRepository;
+    @Mock
+    BookRepository mockBookRepository;
 
     @BeforeEach
     void setup() {
-        bookService = new BookService(new InMemoryStore(),mockBookRepository);
+        bookService = new BookService(new InMemoryStore(), mockBookRepository);
     }
 
     @Test
@@ -47,7 +52,27 @@ class BookServiceImplTest {
         assertThat(actual).isEqualTo(null);
     }
 
+    @Test
+    void shouldFetchBooksWhenBookWithAuthorNameIsPresent() throws BookNotFoundException {
+        Mockito.when(mockBookRepository.fetchBookByAuthor(SOMEONE)).thenReturn(Collections.singletonList(getSampleBook()));
+
+        List<Book> actual = bookService.fetchBookByAuthor(SOMEONE);
+
+        assertThat(actual.get(0).getTitle()).isEqualTo(getSampleBook().getTitle());
+        assertThat(actual.get(0).getIsbn()).isEqualTo(getSampleBook().getIsbn());
+    }
+
+    @Test
+    void shouldNotFetchBooksWhenBookWithAuthorNameIsNotPresent() throws BookNotFoundException {
+        Mockito.when(mockBookRepository.fetchBookByAuthor(SOMEONE)).thenReturn(null);
+
+        List<Book> actual = bookService.fetchBookByAuthor(SOMEONE);
+
+        assertThat(actual).isEqualTo(null);
+    }
+
+
     private Book getSampleBook() {
-        return new Book(1, "wings", "someone", 10, 5);
+        return new Book(1, "wings", SOMEONE, 10, 5);
     }
 }

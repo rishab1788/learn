@@ -22,7 +22,7 @@ class BookControllerTest {
     HttpClient client;
 
     @Inject
-    InMemoryStore inMemoryStore;
+    private InMemoryStore inMemoryStore;
 
     @BeforeEach
     void setup() {
@@ -35,18 +35,19 @@ class BookControllerTest {
     @Test
     void shouldReturnBooksWhenGetBooksApiUsed() {
 
-        var response = client.toBlocking().exchange("/books", List.class);
+        var response = client.toBlocking().exchange("inmemory/books", List.class);
 
         assertEquals(HttpStatus.OK, response.getStatus());
     }
 
     @Test
-    void shouldReturnBookWithAppropriateIdWhenBookApiWithIdIsUsed() {
+    void shouldReturnBookWhenBookApiWithIdIsUsed() {
         Book book = getSampleBook();
         inMemoryStore.BOOKS.put(book.getIsbn(), book);
 
-        var response = client.toBlocking().exchange("books/" + book.getIsbn(), Book.class);
+        var response = client.toBlocking().exchange("inmemory/books/" + book.getIsbn(), Book.class);
         var fetchedBook = response.getBody().get();
+
         assertEquals(book.getIsbn(), fetchedBook.getIsbn());
         assertEquals(book.getTitle(), fetchedBook.getTitle());
     }

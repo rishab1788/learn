@@ -1,42 +1,56 @@
 package com.example.repository;
 
-import com.aerospike.client.AerospikeClient;
+import com.aerospike.client.IAerospikeClient;
 import com.aerospike.client.Key;
 import com.aerospike.client.Record;
+import com.aerospike.client.query.Filter;
+import com.aerospike.client.query.RecordSet;
+import com.aerospike.client.query.Statement;
+import com.aerospike.mapper.tools.IAeroMapper;
 import com.example.constant.AerospikeConstants;
 import com.example.entity.Book;
+import com.example.entity.aerodb.BookEntity;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.constant.AerospikeConstants.*;
 
 @Singleton
 public class BookRepository {
-    private final AerospikeClient aerospikeClient;
+    private final IAerospikeClient aerospikeClient;
 
+    private final IAeroMapper aerospikeMapper;
 
     @Inject
-    public BookRepository(AerospikeClient aerospikeClient) {
+    public BookRepository(IAerospikeClient aerospikeClient, IAeroMapper aerospikeMapper) {
+        this.aerospikeMapper = aerospikeMapper;
         this.aerospikeClient = aerospikeClient;
     }
 
     public Book fetchBook(int id) {
         Key key = new Key(AerospikeConstants.NAMESPACE, AerospikeConstants.BOOK_SET, String.valueOf(id));
         Record record = aerospikeClient.get(null, key);
-        Book book = null;
-        if (record != null) {
-            book = getBook(record);
-        }
-        return book;
+        return Book.getBook(record);
     }
 
-    private Book getBook(Record record) {
-        Map<String, Object> bins = record.bins;
-        String title = bins.get("title").toString();
-        String author = bins.get("author").toString();
-        Long isbn = (Long) bins.get("isbn");
-        Long noOfPages = (Long) bins.get("noOfPages");
-        Long price = (Long) bins.get("price");
-        return new Book(isbn.intValue(), title, author, noOfPages.intValue(), price);
+    public List<Book> fetchBookByAuthor(String author) {
+        Statement statement = new Statement();
+        statement.setNamespace(NAMESPACE);
+        statement.setSetName(BOOK_SET);
+        statement.setFilter(Filter.equal(AUTHOR_BIN, author));
+        RecordSet recordSet = aerospikeClient.query(null, statement);
+        try {
+            List<Book> books = new ArrayList<>();
+            recordSet.forEach(record -> {
+                BookEntity bookEntity = aerospikeMapper.getMappingConverter().convertToObject(BookEntity.class, record.record);
+                books.add(Book.createBook(bookEntity));
+            });
+            return books;
+        } finally {
+            recordSet.close();
+        }
     }
 }

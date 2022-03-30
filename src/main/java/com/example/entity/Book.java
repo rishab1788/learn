@@ -1,5 +1,8 @@
 package com.example.entity;
 
+import com.aerospike.client.Record;
+import com.example.entity.aerodb.BookEntity;
+
 public class Book {
     private final int isbn;
     private final String title;
@@ -13,6 +16,22 @@ public class Book {
         this.author = author;
         this.noOfPages = noOfPages;
         this.price = price;
+    }
+
+    public static Book getBook(Record record) {
+        if (record == null) {
+            return null;
+        }
+        String title = record.getString("title");
+        String author = record.getString("author");
+        Long isbn = record.getLong("isbn");
+        Long noOfPages = record.getLong("noOfPages");
+        Long price = record.getLong("price");
+        return new Book(isbn.intValue(), title, author, noOfPages.intValue(), price);
+    }
+
+    public static Book createBook(BookEntity bookEntity) {
+        return new Book(bookEntity.isbn, bookEntity.getTitle(), bookEntity.getAuthor(), bookEntity.getNoOfPages(), bookEntity.getPrice());
     }
 
     public String getTitle() {
