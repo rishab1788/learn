@@ -1,0 +1,7 @@
+AerospikeClient
+
+AeroMapper -> aero mapper is used to over aerospike client its more easy and lots of bolierplate code will go away.
+@AerospikeRecord(namespace = "test", set = AerospikeConstants.BOOK_SET)
+
+
+why stmt Does not return recordset null

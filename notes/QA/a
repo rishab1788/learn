@@ -1,0 +1,17 @@
+1.best way to create object of book object with record object?
+2. unable to make aerospike configuration as final properties. as
+
+
+
+aerospike -
+1. data replication done in every node or just 2 or some?
+2. is aerospike configurable for CP and AP depending on the usecase
+3. which Replica policy do we use in project aerospike ?
+    -Master, Master then prole , Sequnce, Same Rack, Random
+4. read and write policy configuration?
+
+
+
+
+
+

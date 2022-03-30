@@ -1,11 +1,11 @@
-    Springboot   |                  micronaut                    | Quraks
+    Springboot       |                  micronaut                    | Quraks
 very popular                  mimum memroy and startup time        Rective stack
                             No byte code during compilation
 negtive points               No byte code during compilation         negtive points
 lower startup time                                                  smaller communtity
 higher memeroy usage            smaller community
-
-
+CPU usage is high
+Graavl VM
 
 to create new application with
 https://micronaut.io/launch
@@ -17,3 +17,11 @@ creating controller ->
 
 we can set media type ->
 @Get(produce = MediaType.Text)
+
+
+Why micronaut is fast ?
+-> micronaut does all the injection in the run time, spring boot does all the injection in compile time.
+and when we start the appliacation spring boot does lots of injection at run time.
+
+
+micronaut build time is high and startup time is low
