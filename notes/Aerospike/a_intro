@@ -3,5 +3,12 @@ AerospikeClient
 AeroMapper -> aero mapper is used to over aerospike client its more easy and lots of bolierplate code will go away.
 @AerospikeRecord(namespace = "test", set = AerospikeConstants.BOOK_SET)
 
+@AerospikeRecord(namespace="test", set="om-persons")
+public class Person {
+    @AerospikeKey
+    public String ssn;
+    public String name;
+}
+object mapper  -> /** https://developer.aerospike.com/tutorials/java/object_mapper
 
 why stmt Does not return recordset null

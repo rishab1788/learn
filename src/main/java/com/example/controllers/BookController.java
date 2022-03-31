@@ -1,13 +1,16 @@
 package com.example.controllers;
 
 import com.example.entity.Book;
+import com.example.entity.aerodb.BookEntity;
 import com.example.service.BookService;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
+import io.micronaut.http.annotation.Post;
 import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -20,6 +23,13 @@ public class BookController {
     private BookService bookService;
 
     @Get("inmemory/books/")
+    public List<Book> getBooksFromInmemory() {
+        List<Book> bookList = bookService.fetchBooksFromInMemory();
+        LOG.debug("Number of Fetched Books : " + bookList.size());
+        return bookList;
+    }
+
+    @Get("books/")
     public List<Book> getBooks() {
         List<Book> bookList = bookService.fetchBooks();
         LOG.debug("Number of Fetched Books : " + bookList.size());
@@ -39,5 +49,11 @@ public class BookController {
     @Get("books/author/{authorName}")
     public List<Book> getBookByAuthor(@PathVariable String authorName) {
         return bookService.fetchBookByAuthor(authorName);
+    }
+
+    @Post("books/")
+    public List<Book> addBook(@RequestBody BookEntity bookEntity) {
+        LOG.debug("Add book request for  : " + bookEntity);
+        return bookService.addBook(bookEntity);
     }
 }

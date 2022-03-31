@@ -1,5 +1,8 @@
 package com.example.controllers;
 
+import com.aerospike.mapper.tools.IAeroMapper;
+import com.example.aerospike.configuration.AerospikeConfiguration;
+import com.example.aerospike.configuration.AerospikeConfigurationProperties;
 import com.example.data.InMemoryStore;
 import com.example.entity.Book;
 import io.micronaut.http.HttpStatus;
@@ -23,6 +26,15 @@ class BookControllerTest {
 
     @Inject
     private InMemoryStore inMemoryStore;
+
+    @Inject
+    private AerospikeConfiguration aerospikeConfiguration;
+
+    @Inject
+    private AerospikeConfigurationProperties aerospikeConfigurationProperties;
+
+    @Inject
+    private IAeroMapper aerospikeMapper;
 
     @BeforeEach
     void setup() {
@@ -50,5 +62,12 @@ class BookControllerTest {
 
         assertEquals(book.getIsbn(), fetchedBook.getIsbn());
         assertEquals(book.getTitle(), fetchedBook.getTitle());
+    }
+
+    @Test
+    void shouldReturnAllPresentBook() {
+        var response = client.toBlocking().exchange("books/", List.class);
+
+        assertEquals(response.getStatus(), HttpStatus.OK);
     }
 }

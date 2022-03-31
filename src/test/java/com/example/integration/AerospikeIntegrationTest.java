@@ -80,7 +80,6 @@ public class AerospikeIntegrationTest {
             assertThat(record.record).isNotEqualTo(null);
         }
 
-
         aerospikeClient.dropIndex(null, AerospikeConstants.NAMESPACE, AerospikeConstants.DEMO_SET, BIN_1_INDEX);
         aerospikeClient.delete(null, key);
     }

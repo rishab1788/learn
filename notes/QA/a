@@ -10,7 +10,8 @@ aerospike -
     -Master, Master then prole , Sequnce, Same Rack, Random
 4. read and write policy configuration?
 
-
+5. need more clarity on how to write test? integration test and unit test.
+        (Lets say methods are not created and how should be proceed)
 
 
 
