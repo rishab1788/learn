@@ -29,7 +29,7 @@ public class BookRepository {
 
     public Book fetchBook(int id) {
         BookEntity bookEntity = aerospikeMapper.read(BookEntity.class, id);
-        return Book.createBook(bookEntity);
+        return bookEntity.getBook();
     }
 
     public List<Book> fetchBook() {
@@ -41,7 +41,7 @@ public class BookRepository {
             List<Book> books = new ArrayList<>();
             recordSet.forEach(record -> {
                 BookEntity bookEntity = aerospikeMapper.getMappingConverter().convertToObject(BookEntity.class, record.record);
-                books.add(Book.createBook(bookEntity));
+                books.add(bookEntity.getBook());
             });
             return books;
         } finally {
@@ -59,7 +59,7 @@ public class BookRepository {
             List<Book> books = new ArrayList<>();
             recordSet.forEach(record -> {
                 BookEntity bookEntity = aerospikeMapper.getMappingConverter().convertToObject(BookEntity.class, record.record);
-                books.add(Book.createBook(bookEntity));
+                books.add(bookEntity.getBook());
             });
             return books;
         } finally {

@@ -5,6 +5,7 @@ import com.aerospike.mapper.annotations.AerospikeKey;
 import com.aerospike.mapper.annotations.AerospikeRecord;
 import com.aerospike.mapper.annotations.ParamFrom;
 import com.example.constant.AerospikeConstants;
+import com.example.entity.Book;
 
 @AerospikeRecord(namespace = AerospikeConstants.NAMESPACE, set = AerospikeConstants.BOOK_SET)
 public class BookEntity {
@@ -59,5 +60,9 @@ public class BookEntity {
 
     public double getPrice() {
         return price;
+    }
+
+    public Book getBook() {
+        return new Book(this.isbn, this.title, this.author, this.getNoOfPages(), this.price);
     }
 }

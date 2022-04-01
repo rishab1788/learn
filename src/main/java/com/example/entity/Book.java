@@ -30,10 +30,6 @@ public class Book {
         return new Book(isbn.intValue(), title, author, noOfPages.intValue(), price);
     }
 
-    public static Book createBook(BookEntity bookEntity) {
-        return new Book(bookEntity.isbn, bookEntity.getTitle(), bookEntity.getAuthor(), bookEntity.getNoOfPages(), bookEntity.getPrice());
-    }
-
     public String getTitle() {
         return title;
     }

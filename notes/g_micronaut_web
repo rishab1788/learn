@@ -39,3 +39,73 @@ PUT
          produces = MediaType.APPLICATION_JSON)
     update(@Body Book book){
     }
+
+
+we can also return
+@Status(HttpStatus.CREATED)
+@Status(HttpStatus.ACCEPTED)
+@Status(HttpStatus.OK)
+
+also HttpResponse<void> can be sent
+
+   @Post("books/")
+    public HttpResponse<List<Book>> addBook(@RequestBody BookEntity bookEntity) {
+        LOG.debug("Add book request for  : " + bookEntity);
+        return (HttpResponse<List<Book>>) bookService.addBook(bookEntity);
+    }
+
+
+Error Handling-> Custom HttpResponse
+
+Custom Exception Handler ->
+register custom exception handler
+
+            @Get("/users/{id}")
+               public User findUserById(String id) throws CustomException {
+                   Long user_id = null;
+                   try {
+                       user_id = Long.parseLong(id);
+                   } catch (NumberFormatException e) {
+                       throw new CustomException("User Id must be numeric");
+                   }
+                   User user = userData.getUserById(user_id);
+                   if (user == null) {
+                       throw new CustomException("Entity Not Found");
+                   }
+                   return user;
+               }
+
+            public class CustomException extends RuntimeException implements Serializable {
+                private static final long serialVersionUID = 1L;
+                public CustomException() {
+                }
+                public CustomException(String message) {
+                    super(message);
+                }
+                public CustomException(String message, Throwable cause) {
+                    super(message, cause);
+                }
+                public CustomException(Throwable cause) {
+                    super(cause);
+                }
+                public CustomException(String message, Throwable cause,
+                boolean enableSuppression, boolean writableStackTrace) {
+                    super(message, cause, enableSuppression, writableStackTrace);
+                }
+            }
+
+            @Produces
+            @Singleton
+            @Requires(classes = { CustomException.class, ExceptionHandler.class })
+            public class CustomExceptionHandler
+                implements ExceptionHandler<CustomException, HttpResponse<ErrorMessage>> {
+                @Override
+                public HttpResponse<ErrorMessage>
+                    handle(HttpRequest request, CustomException exception) {
+                    ErrorMessage message = new ErrorMessage();
+                    message.setMessage(exception.getMessage());
+                    message.setStatus(false);
+                    return HttpResponse.serverError(message).
+                            status(HttpStatus.BAD_REQUEST);
+                }
+            }
