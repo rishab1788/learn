@@ -11,4 +11,4 @@ public class Person {
 }
 object mapper  -> /** https://developer.aerospike.com/tutorials/java/object_mapper
 
-why stmt Does not return recordset null
+why stmt Does not return recordset?

@@ -4,13 +4,18 @@ import com.aerospike.client.AerospikeClient;
 import com.aerospike.client.Bin;
 import com.aerospike.client.Key;
 import com.aerospike.client.Record;
+import com.aerospike.client.exp.Exp;
+import com.aerospike.client.policy.ScanPolicy;
 import com.aerospike.client.query.Filter;
 import com.aerospike.client.query.IndexType;
 import com.aerospike.client.query.RecordSet;
 import com.aerospike.client.query.Statement;
+import com.aerospike.mapper.tools.IAeroMapper;
 import com.example.aerospike.configuration.AerospikeConfiguration;
 import com.example.aerospike.configuration.AerospikeConfigurationProperties;
 import com.example.constant.AerospikeConstants;
+import com.example.entity.Book;
+import com.example.entity.aerodb.BookEntity;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.AfterAll;
@@ -18,6 +23,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.constant.AerospikeConstants.AUTHOR_BIN;
+import static com.example.constant.AerospikeConstants.PRICE_BIN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,6 +39,8 @@ public class AerospikeIntegrationTest {
     private AerospikeConfiguration aerospikeConfiguration;
     @Inject
     private AerospikeConfigurationProperties aerospikeConfigurationProperties;
+    @Inject
+    private IAeroMapper aerospikeMapper;
 
     @BeforeAll
     static void setup() {

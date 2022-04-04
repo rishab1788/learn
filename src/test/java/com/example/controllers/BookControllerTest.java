@@ -5,6 +5,8 @@ import com.example.aerospike.configuration.AerospikeConfiguration;
 import com.example.aerospike.configuration.AerospikeConfigurationProperties;
 import com.example.data.InMemoryStore;
 import com.example.entity.Book;
+import com.example.entity.aerodb.BookEntity;
+import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @MicronautTest
@@ -41,7 +44,11 @@ class BookControllerTest {
     }
 
     private Book getSampleBook() {
-        return new Book(1001, "sample book", "sample author", 10, 100);
+        return new Book(1001, "sample_book", "sample_author", 10, 100);
+    }
+
+    private BookEntity getSampleBookEntity() {
+        return new BookEntity(1001, "sample_book", "sample_author", 10, 100, 200);
     }
 
     @Test
@@ -62,6 +69,30 @@ class BookControllerTest {
 
         assertEquals(book.getIsbn(), fetchedBook.getIsbn());
         assertEquals(book.getTitle(), fetchedBook.getTitle());
+    }
+
+    @Test
+    void shouldCreateBookWhenBookPostApiIsUsed() {
+        var response = client.toBlocking().exchange(HttpRequest.POST("books", getSampleBookEntity()));
+
+        HttpStatus actual = response.getStatus();
+
+        assertThat(actual.getCode()).isEqualTo(HttpStatus.CREATED.getCode());
+        aerospikeMapper.delete(getSampleBookEntity());
+    }
+
+    @Test
+    void shouldFetchAllBooksOfAuthorWhenAuthorApiIsUsed() {
+        BookEntity bookEntity = getSampleBookEntity();
+        aerospikeMapper.save(bookEntity);
+        var response = client.toBlocking().exchange("books/author/" + bookEntity.getAuthor(), Book.class);
+
+        HttpStatus actualStatus = response.getStatus();
+        Book actualBook = response.getBody().get();
+
+        assertThat(actualStatus.getCode()).isEqualTo(HttpStatus.OK.getCode());
+        assertThat(actualBook.getIsbn()).isEqualTo(getSampleBookEntity().getIsbn());
+        aerospikeMapper.delete(bookEntity);
     }
 
     @Test

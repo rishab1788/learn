@@ -33,7 +33,7 @@ public class BookService {
 
     public List<Book> fetchBooks() {
         LOG.debug("fetching list of books from aerospike db");
-        return bookRepository.fetchBook();
+        return bookRepository.fetchBooks();
     }
 
     public Book fetchBook(int isbn) {
@@ -49,5 +49,9 @@ public class BookService {
     public List<Book> addBook(BookEntity bookEntity) {
         LOG.debug("adding book to aerospike db");
         return bookRepository.addBook(bookEntity);
+    }
+
+    public List<Book> fetchBookByAuthorInPriceRange(String author, Long fromPrice, Long toPrice) {
+        return bookRepository.fetchBookOfAuthorInPriceRange(author, fromPrice, toPrice);
     }
 }
